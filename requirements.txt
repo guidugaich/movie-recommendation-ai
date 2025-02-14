@@ -1,0 +1,5 @@
+pymongo
+requests
+pandas
+sentence_transformers
+python-dotenv
