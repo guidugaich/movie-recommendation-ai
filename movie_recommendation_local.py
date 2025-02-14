@@ -1,10 +1,13 @@
 # creating embeddings for movie plots using SentenceTransformer
-
+from dotenv import load_dotenv
+import os
 import pymongo
 from sentence_transformers import SentenceTransformer
 import pandas as pd
 
-mongodb_uri = 'mongodb+srv://guidugaichdev:DaSRSFiykK4LIxqN@cluster0.qvc7v.mongodb.net/'
+load_dotenv()
+
+mongodb_uri = os.getenv("MONGODB_URI")
 embedding_model_id = "sentence-transformers/all-MiniLM-L6-v2"
 
 client = pymongo.MongoClient(mongodb_uri)
