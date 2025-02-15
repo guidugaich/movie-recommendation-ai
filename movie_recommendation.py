@@ -5,10 +5,11 @@ import pymongo
 import requests
 import pandas as pd
 
-load_dotenv()
+load_dotenv(override=True)
 
 huggingface_token = os.getenv("HUGGINGFACE_TOKEN")
 mongodb_uri = os.getenv("MONGODB_URI")
+print("MONGODB_URI", mongodb_uri)
 embedding_model_id = "sentence-transformers/all-MiniLM-L6-v2"
 api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{embedding_model_id}"
 headers = {"Authorization": f"Bearer {huggingface_token}"}

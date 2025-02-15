@@ -5,9 +5,11 @@ import pymongo
 from sentence_transformers import SentenceTransformer
 import pandas as pd
 
-load_dotenv()
+load_dotenv(override=True)
 
 mongodb_uri = os.getenv("MONGODB_URI")
+
+print("MONGODB_URI", mongodb_uri)
 embedding_model_id = "sentence-transformers/all-MiniLM-L6-v2"
 
 client = pymongo.MongoClient(mongodb_uri)
