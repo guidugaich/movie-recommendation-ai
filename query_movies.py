@@ -1,28 +1,32 @@
 import pymongo
+from dotenv import load_dotenv
+import os
+from generate_embedding_hf_api import generate_embedding
+from generate_embedding_local import generate_embedding_local
+from generate_embedding_openai import generate_embedding_openai
 
-from movie_recommendation import generate_embeddings
+load_dotenv(override=True)
 
-mongodb_uri = 'mongodb+srv://guidugaichdev:DaSRSFiykK4LIxqN@cluster0.qvc7v.mongodb.net/'
-
-query = 'movies about couples that separated'
-
+# MongoDB
+mongodb_uri = os.getenv("MONGODB_URI")
 client = pymongo.MongoClient(mongodb_uri)
 db = client["sample_mflix"]
 collection = db["embedded_movies"]
 
+query = 'relationships are difficult and take work'
+query_embedding = generate_embedding_openai(query)
+
 results = collection.aggregate([
     {
         "$vectorSearch": {
-            "queryVector": generate_embeddings(query),
+            "queryVector": query_embedding,
             "path": "plot_embedding",
-            "numCandidates": 10,
+            "numCandidates": 1000,
             "limit": 4,
-            "index": "embedded_movies_plot_index"
+            "index": "vector_index"
         }
     }
 ])
 
 for r in results:
-    print(f'Movie name: {r["title"]} Movie plot: {r["plot"]}')
-
-# error: knnVector field is indexed with 1536 dimensions but queried with 384
+    print(f'Movie: {r["title"]}\nPlot: {r["plot"]}\n\n')
