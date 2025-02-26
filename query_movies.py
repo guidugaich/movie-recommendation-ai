@@ -13,7 +13,7 @@ client = pymongo.MongoClient(mongodb_uri)
 db = client["sample_mflix"]
 collection = db["embedded_movies"]
 
-query = 'relationships are difficult and take work'
+query = 'movies about war in outer space'
 query_embedding = generate_embedding_openai(query)
 
 results = collection.aggregate([
